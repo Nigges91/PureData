@@ -1,0 +1,27 @@
+#!/bin/bash
+
+wr=~/pd/pd-0.42-5wr/src
+
+doit() {
+  for fin in $files ; do
+    if [ -f $fin ] ; then
+      echo -e \\n
+      diff -bau $fin $wr/$fin
+    fi
+  done
+} >> $fout
+
+fout=all-h.diff
+files="m_pd.h g_canvas.h"
+echo '***' Headers in `pwd` '***' > $fout
+doit
+
+fout=all-c.diff
+files="d_ugen.c \
+       g_canvas.c \
+       g_graph.c \
+       g_io.c \
+       m_binbuf.c \
+       g_toggle.c"
+echo '***' Sources in `pwd` '***' > $fout
+doit
